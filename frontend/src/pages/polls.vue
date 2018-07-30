@@ -3,17 +3,31 @@
   <img src="../assets/elections.svg">
   <NewPollComponent/>
   <div class="row">
-    <div class="col-4">ssss</div>
-    <div class="col-4">ssss</div>
+    <CardComponent title="sssss" detail="eas" pollId="ss" v-for="(value , index) in listPolls" :key="index"/>
   </div>
 </div>
 </template>
 <script>
   import NewPollComponent from '@/components/NewPoll';
+  import CardComponent from '@/components/Card';
+  import {pollsService} from '@/plugins/feathers'
 
   export default{
+    data: function(){
+      return{
+        listPolls: []
+      }
+    },
+    created(){
+      pollsService
+        .find({})
+        .then((data)=>{
+          this.listPolls = data;
+      })
+    },
     components:{
-      NewPollComponent
+      NewPollComponent,
+      CardComponent
     }
   }
 </script>
