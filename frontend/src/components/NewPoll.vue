@@ -4,16 +4,16 @@
     <div class="col sm-12 md-4">
       <div class="form-group">
         <label for="paperInputs2">Title</label>
-        <input class="input-block" type="text" placheholder="Title" v-mode="detail">
+        <input class="input-block" type="text" placheholder="Title" v-model="title">
       </div>
     </div>
     <div class="col sm-12 md-4">
       <div class="form-group">
         <label for="paperInputs3">Detail</label>
-        <input class="input-block" type="text" placheholder="Detail" v-mode="title">
+        <input class="input-block" type="text" placheholder="Detail" v-model="detail">
       </div>
     </div>
-    <button class="btn-success">Create New!</button>
+    <button class="btn-success" @click="addNewPoll">Create New!</button>
     <h4 v-if="created">Created!</h4>
   </div>
 </div>
@@ -28,12 +28,22 @@ export default {
     return {
       title: '',
       detail: '',
-      created: true
+      created: false
     }
   },
   methods: {
     addNewPoll: function(){
-      pollsService.create()
+      pollsService.create({
+        title: this.title,
+        detail: this.detail
+      }).then((data)=>{
+        console.log(data)
+        this.title = ''
+        this.detail = ''
+        this.created = true
+      }).catch((err)=>{
+        console.log(err)
+      })
     }
   }
 }
